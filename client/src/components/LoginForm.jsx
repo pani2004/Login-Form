@@ -30,7 +30,7 @@ const LoginPage = () => {
           setMessage('Login failed. Please try again.');
         }
       } else {
-        setMessage('An unexpected error occurred. Please try again later.');
+        setMessage(error.message);
       }
     }
   };
