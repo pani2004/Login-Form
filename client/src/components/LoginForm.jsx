@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../redux/authSlice'; // Import the correct action
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Import Link component
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -16,7 +16,7 @@ const LoginPage = () => {
     try {
       const res = await axios.post('http://localhost:5000/user/login', { email, password });
       const { userId, userName } = res.data;
-      dispatch(loginSuccess({ userId, userName, email}));
+      dispatch(loginSuccess({ userId, userName, email }));
       setMessage('Login successful');
       setTimeout(() => navigate('/userprofile'), 1000);
     } catch (error) {
@@ -73,12 +73,19 @@ const LoginPage = () => {
             {message}
           </p>
         )}
+        <p className="mt-4 text-center">
+          Don't have an account?{' '}
+          <Link to="/register" className="text-blue-600 hover:text-blue-800">
+            Register here
+          </Link>
+        </p>
       </div>
     </div>
   );
 };
 
 export default LoginPage;
+
 
 
 
