@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+
+const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const RegisterForm = () => {
   const [userName, setUsername] = useState('');
@@ -12,13 +14,19 @@ const RegisterForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const apiUrl = import.meta.env.VITE_API_URL;
-      console.log(apiUrl);
+      console.log('Sending data:', { userName, email, password });
+
       const res = await axios.post(`${apiUrl}/user/register`, { userName, email, password });
+      console.log('Response:', res.data);
       setMessage({ text: 'Registration successful. Please login.', type: 'success' });
       setTimeout(() => navigate('/login'), 2000);
     } catch (error) {
-      setMessage({ text: error.message, type: 'error' });
+      console.error('Registration error:', error);
+      if (error.response) {
+        setMessage({ text: `Registration failed: ${error.response.data.message}`, type: 'error' });
+      } else {
+        setMessage({ text: 'Registration failed. Please try again.', type: 'error' });
+      }
     }
   };
 
@@ -35,7 +43,7 @@ const RegisterForm = () => {
               value={userName}
               onChange={(e) => setUsername(e.target.value)}
               required
-              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300" // Increased padding
+              className="w-full px-1 py-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
             />
           </div>
           <div>
@@ -46,7 +54,7 @@ const RegisterForm = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300" // Increased padding
+              className="w-full px-1 py-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
             />
           </div>
           <div>
@@ -57,7 +65,7 @@ const RegisterForm = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300" // Increased padding
+              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
             />
           </div>
           <button
@@ -80,6 +88,7 @@ const RegisterForm = () => {
 };
 
 export default RegisterForm;
+
 
 
 
