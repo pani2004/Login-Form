@@ -5,6 +5,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import userRoutes from './routes/user.routes.js';
 import connectDB from './db/index.js';
+import path from 'path'
 dotenv.config();
 const app = express();
 app.use(express.json());
