@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { loginSuccess } from '../redux/authSlice'; // Import the correct action
-import { useNavigate, Link } from 'react-router-dom'; // Import Link component
+import { loginSuccess } from '../redux/authSlice';
+import { useNavigate, Link } from 'react-router-dom';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -14,7 +14,8 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/user/login', { email, password });
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const res = await axios.post(`${apiUrl}/user/login`, { email, password });
       const { userId, userName } = res.data;
       dispatch(loginSuccess({ userId, userName, email }));
       setMessage('Login successful');
@@ -85,6 +86,7 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
 
 
 

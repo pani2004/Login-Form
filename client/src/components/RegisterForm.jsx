@@ -1,20 +1,21 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
 const RegisterForm = () => {
   const [userName, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState({ text: '', type: '' }); 
-  const navigate = useNavigate(); 
+  const [message, setMessage] = useState({ text: '', type: '' });
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/user/register', { userName, email, password });
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const res = await axios.post(`${apiUrl}/user/register`, { userName, email, password });
       setMessage({ text: 'Registration successful. Please login.', type: 'success' });
-      setTimeout(() => navigate('/login'), 2000); 
+      setTimeout(() => navigate('/login'), 2000);
     } catch (error) {
       setMessage({ text: 'Registration failed', type: 'error' });
     }
@@ -33,7 +34,7 @@ const RegisterForm = () => {
               value={userName}
               onChange={(e) => setUsername(e.target.value)}
               required
-              className="w-full px-1 py-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300" // Increased padding
+              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300" // Increased padding
             />
           </div>
           <div>
@@ -44,7 +45,7 @@ const RegisterForm = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-1 py-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300" // Increased padding
+              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300" // Increased padding
             />
           </div>
           <div>
@@ -78,6 +79,7 @@ const RegisterForm = () => {
 };
 
 export default RegisterForm;
+
 
 
 
