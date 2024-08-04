@@ -13,11 +13,12 @@ const RegisterForm = () => {
     e.preventDefault();
     try {
       const apiUrl = import.meta.env.VITE_API_URL;
+      console.log(apiUrl);
       const res = await axios.post(`${apiUrl}/user/register`, { userName, email, password });
       setMessage({ text: 'Registration successful. Please login.', type: 'success' });
       setTimeout(() => navigate('/login'), 2000);
     } catch (error) {
-      setMessage({ text: 'Registration failed', type: 'error' });
+      setMessage({ text: error.message, type: 'error' });
     }
   };
 
