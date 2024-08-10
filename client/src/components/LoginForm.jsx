@@ -14,8 +14,7 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const apiUrl = import.meta.env.VITE_API_URL;
-      const res = await axios.post(`${apiUrl}/user/login`, { email, password });
+      const res = await axios.post(`/user/login`, { email, password });
       const { userId, userName } = res.data;
       dispatch(loginSuccess({ userId, userName, email }));
       setMessage('Login successful');
